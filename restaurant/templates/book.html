@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section>
+  <article>
+    <h1>Make a reservation</h1>
+    <!--Begin row-->
+    <div class="row">
+      <!--Begin col-->
+      <div class="column">
+        <form method="POST" id="form">
+          {% csrf_token %}
+          <p>
+            <label for="first_name">Name:</label>
+            <input type="text" placeholder="Your Name" maxlength="200" required="" id="first_name">
+          </p>
+          <p>
+            <label for="reservation_date">Reservation Date:</label>
+            <input type="date" id="reservation_date">
+          </p>
+
+          <!-- Reservation Time -->
+          <p>
+            <label for="reservation_time">Reservation Time:</label>
+            <select id="reservation_time">
+              <option value="0" disabled>Select time</option>
+            </select>
+          </p>
+          <button type="button" id="button">Reserve Now</button>
+          <p id="success-message" style="display: none; color: green;">Reservation successfully made!</p>
+        </form>
+      </div>
+      <!--End col-->
+
+      <!--Begin col-->
+      <div class="column">
+        <h2>Bookings For <span id="today"></span></h2>
+        <div id="bookings"></div>
+      </div>
+      <!--End col-->
+    </div>
+    <!--End row-->
+  </article>
+</section>
+<script>
+  const date = new Date();
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  // Set the initial date input value
+  document.getElementById('reservation_date').value = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+
+  // Define time slots
+  const timeSlots = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'];
+
+  // Populate time slots
+  const reservationTimeElement = document.getElementById('reservation_time');
+  timeSlots.forEach(timeSlot => {
+    const option = document.createElement('option');
+    option.value = timeSlot;
+    option.text = formatTime(timeSlot);
+    reservationTimeElement.add(option);
+  });
+
+  function formatTime(time) {
+    const [hour, minute] = time.split(':');
+    return `${hour % 12 || 12}:${minute} ${hour < 12 ? 'AM' : 'PM'}`;
+  }
+
+  document.getElementById('button').addEventListener('click', function (e) {
+    const first_name = document.getElementById('first_name').value;
+    const reservation_date = document.getElementById('reservation_date').value;
+    const reservation_slot = document.getElementById('reservation_time').value;  // Update variable name
+
+    // Send the POST request
+    fetch("{% url 'bookings' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify({
+        first_name: first_name,
+        reservation_date: reservation_date,
+        reservation_slot: reservation_slot,  // Update variable name
+      }),
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // Show success message
+      const successMessage = document.getElementById('success-message');
+      successMessage.style.display = 'block';
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+        // Automatically refresh the page after a delay
+        setTimeout(() => {
+          location.reload();
+        }, 1000); // Refresh the page after 1 second (adjust as needed)
+      }, 3000); // Hide the message after 3 seconds (adjust as needed)
+    })
+    
+  });
+
+</script>
+
+{% endblock %}
