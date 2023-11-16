@@ -33,42 +33,42 @@ https://github.com/Maxidonx/Final_assessment.git
     python manage.py runserver
     ```
 ## Testing the end points
-** http://127.0.0.1/api/register/ **
+** /api/register/ **
 
 - ** DESCRIPTION: ** To register new users
 - ** METHOD: **  POST
 
-** http://127.0.0.1/api/get_user/<int:user_id>/ **
+** /api/get_user/<int:user_id>/ **
 
 - ** DESCRIPTION: ** To get users
 - ** METHOD: **  GET
 
-** http://127.0.0.1/api/update_user/<int:user_id>/ **
+** /api/update_user/<int:user_id>/ **
 
 - ** DESCRIPTION: ** To Update users
 - ** METHOD: ** PUT
 
-** http://127.0.0.1/api/delete_user/<int:user_id>/ **
+** /api/delete_user/<int:user_id>/ **
 
 - ** DESCRIPTION: ** To delete users
 - ** METHOD: **  DELETE
 
-** http://127.0.0.1/ **
+** localhost **
 
 - ** DESCRIPTION: ** Home page
 - ** METHOD: **  GET
 
-** http://127.0.0.1/menu **
+** /menu **
 
 - ** DESCRIPTION: ** desplay menu
 - ** METHOD: **  get
 
-** localhost:8000/book **
+** /book **
 
 - ** DESCRIPTION: ** To make booking
 - ** METHOD: **  POST
 
-** http://127.0.0.1/reservations/ **
+** /reservations/ **
 
 - ** DESCRIPTION: ** To make reservations
 - ** METHOD: **  POST
