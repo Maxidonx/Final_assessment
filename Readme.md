@@ -63,7 +63,7 @@ https://github.com/Maxidonx/Final_assessment.git
 - ** DESCRIPTION: ** desplay menu
 - ** METHOD: **  get
 
-** http://127.0.0.1/book **
+** localhost:8000/book **
 
 - ** DESCRIPTION: ** To make booking
 - ** METHOD: **  POST
