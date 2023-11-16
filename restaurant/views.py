@@ -38,7 +38,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
 @api_view(['POST'])
-def register_user(request):
+def register(request):
     """
     Register a new user.
     """
