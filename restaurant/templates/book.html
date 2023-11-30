@@ -12,9 +12,14 @@
         <form method="POST" id="form">
           {% csrf_token %}
           <p>
-            <label for="first_name">Name:</label>
-            <input type="text" placeholder="Your Name" maxlength="200" required="" id="first_name">
+            <label for="first_name">First Name:</label>
+            <input type="text" placeholder="Your first Name" maxlength="200" required="" id="first_name">
           </p>
+          <p>
+            <label for="last_name">Last Name:</label>
+            <input type="text" placeholder="Your last Name" maxlength="200" required="" id="last_name">
+          </p>
+          <!-- Reservation date -->
           <p>
             <label for="reservation_date">Reservation Date:</label>
             <input type="date" id="reservation_date">
@@ -26,6 +31,10 @@
             <select id="reservation_time">
               <option value="0" disabled>Select time</option>
             </select>
+          </p>
+          <p>
+            <label for="no_of_guest">Number of Guests:</label>
+            <input type="number" placeholder="Number of Guests" required="" id="no_of_guest" min="1">
           </p>
           <button type="button" id="button">Reserve Now</button>
           <p id="success-message" style="display: none; color: green;">Reservation successfully made!</p>
@@ -68,6 +77,7 @@
 
   document.getElementById('button').addEventListener('click', function (e) {
     const first_name = document.getElementById('first_name').value;
+    const last_name = document.getElementById('last_name').value;
     const reservation_date = document.getElementById('reservation_date').value;
     const reservation_slot = document.getElementById('reservation_time').value;  // Update variable name
 

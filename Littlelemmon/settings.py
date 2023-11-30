@@ -59,20 +59,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Littlelemmon.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': env('NAME'),
-#         'HOST': env('HOST'),
-#         'PORT': env('PORT'),
-#         'USER': env('USER'),
-#         'PASSWORD': env('PASSWORD'),
-#     }
-# }
-
 DATABASES = {
-    'default': env.db(),  # Reads the DATABASE_URL environment variable
-}
+     'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'restaurant',
+            'HOST' : '127.0.0.1',
+            'PORT' : '3306',
+            'USER' : 'admindjango',
+            'PASSWORD' : 'employee@123!',
+        }
+} 
+
+# DATABASES = {
+#     'default': env.db(),  # Reads the DATABASE_URL environment variable
+# }
 # MEDIA_ROOT = BASE_DIR / 'media'
 
 
