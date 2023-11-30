@@ -1,43 +1,30 @@
-from django.urls import path, include
+from django.urls import path,include, re_path
 from . import views
-from rest_framework.routers import DefaultRouter
-from .views import (
-    BookingViewSet,
-    UserViewSet,
-    UserListCreateView,
-    UserDetailView,
-    register,
-    get_user,
-    update_user,
-    delete_user,
-    home,
-    about,
-    reservations,
-    book,
-    menu,
-    display_menu_item,
-    bookings,
-)
+from .views import manager_users, remove_manager_user, delivery_crew_users, remove_delivery_crew_user
+from rest_framework import routers
 
-router = DefaultRouter()
-router.register(r'bookings', BookingViewSet)
-router.register(r'users', UserViewSet)
-# router.register(r'users', UserListCreateView)
-# router.register(r'users',  UserDetailView)
+router = routers.DefaultRouter()
 
+# Register the BookingViewSet with the router
+router.register(r'tables', views.BookingViewSet,basename='tables')
 
+app_name = 'restaurant'
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('api/register/', register, name='register_user'),
-    path('api/get_user/<int:user_id>/', get_user, name='get_user'),
-    path('api/update_user/<int:user_id>/', update_user, name='update_user'),
-    path('api/delete_user/<int:user_id>/', delete_user, name='delete_user'),
-
-    path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('reservations/', views.reservations, name='reservations'),
-    path('book/', views.book, name='book'),
-    path('menu/', views.menu, name='menu'),
-    path('menu_item/<int:pk>/',views.display_menu_item, name='display_menu_item'),
-    path('bookings/', views.bookings, name='bookings'), 
+    path('home', views.home, name="home"),
+    path('about/', views.about, name="about"),
+    path('book/', views.book, name="book"), 
+    path('bookings', views.bookings, name='bookings'),
+    path('api/menu/', views.MenuItemsView.as_view(), name="MenuItemsView"),
+    path('api/menu/<int:pk>', views.SingleMenuItemView.as_view()),
+    path('categories', views.CategoriesView.as_view()),
+    path('ratings', views.RatingsView.as_view()),
+    path('api/groups/manager/users/', manager_users, name='manager_users'),
+    path('api/groups/manager/users/<int:user_id>/', remove_manager_user, name='remove_manager_user'),
+    path('api/groups/delivery-crew/users/', delivery_crew_users, name='delivery_crew_users'),
+    path('api/groups/delivery-crew/users/<int:user_id>/', remove_delivery_crew_user, name='remove_delivery_crew_user'),
+    path('api/cart/menu',views.CartMenuItemsView.as_view()),
+    path('api/orders',views.OrderListView.as_view()),
+    path('api/orders/<int:pk>/',views.OrderDetailView.as_view()),
+    # Add other URLs as needed
+    path('restaurant/booking/', include(router.urls)),
 ]
