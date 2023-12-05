@@ -30,8 +30,7 @@ class IsManagerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        return request.user.groups.filter(name='manager').exists()
-
+        return request.user.groups.filter(name='manager').exists() and obj.manager == request.user
 
 class BookingViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -46,9 +45,6 @@ class IsOrderOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Check if the user is the owner of the order
         return obj.user == request.user
-
-
-
 
 
 class RatingsView(generics.ListCreateAPIView):
@@ -223,9 +219,6 @@ class CartMenuItemsView(generics.ListCreateAPIView):
         # Delete all menu items created by the current user
         Cart.objects.filter(user=request.user).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
 
 
 class OrderListView(generics.ListCreateAPIView):
